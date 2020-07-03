@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "prueba-atl-fabian"
+    }
+  },
+  "defaultProject": "prueba-atl-fabian",
+  "cli": {
+    "analytics": "3034e52e-636b-4cc6-96ba-b01b8401411a"
+  }
 }
