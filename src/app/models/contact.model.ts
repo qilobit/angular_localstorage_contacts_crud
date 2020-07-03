@@ -1,6 +1,6 @@
 export class Contact {
 
-  constructor(private name: string, private phones: string[]) {
+  constructor(private id: number, private name: string, private phones: string[]) {
 
   }
 }

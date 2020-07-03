@@ -1,1 +1,13 @@
-<h2>Mis contactos</h2>
+<div class="container-fluid">
+  <h2>Mis contactos</h2>
+  <div class="row">
+    <div class="col-sm-6 text-left">
+      <add-contact-btn (newContactAdded)="refresh()"></add-contact-btn>
+    </div>
+    <div class="col-sm-6 text-right">
+      <import-contacts-btn></import-contacts-btn>
+    </div>
+  </div>
+
+  <contacts-list [contacts]="contacts"></contacts-list>
+</div>
