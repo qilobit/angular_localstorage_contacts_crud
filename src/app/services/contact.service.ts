@@ -34,4 +34,9 @@ export class ContactService {
     });
     this.storeContacts(contacts);
   }
+
+  public deleteContact(contact: Contact): void {
+    const contacts = this.getContacts().filter(_contact => _contact.id != contact.id);
+    this.storeContacts(contacts);
+  }
 }

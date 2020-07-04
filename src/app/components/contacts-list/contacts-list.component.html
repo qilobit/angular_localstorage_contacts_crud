@@ -6,8 +6,14 @@
         <input *ngIf="contact.isBeenEdited" type="text" class="form-control" [formControl]="editingContactName">
       </div>
       <div class="col-sm-4 text-right">
-        <button *ngIf="!contact.isBeenEdited" class="btn btn-warning btn-sm" (click)="edit(contact)"><i
-            class="fa fa-edit"></i> Editar</button>
+        <div *ngIf="!contact.isBeenEdited" class="form-group">
+          <button class="btn btn-warning btn-sm" (click)="edit(contact)"><i class="fa fa-edit"></i>
+            Editar</button>&nbsp;
+          <button class="btn btn-danger btn-sm" (click)="delete(contact)"><i class="fa fa-trash"></i>
+            Borrar</button>
+        </div>
+
+
         <div *ngIf="contact.isBeenEdited" class="form-group">
           <button class="btn btn-secondary btn-sm" (click)="cancelEdition(contact)"><i class="fa fa-close"></i>
             Cancelar</button>&nbsp;

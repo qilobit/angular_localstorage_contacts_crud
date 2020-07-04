@@ -11,7 +11,7 @@ import { EventEmitter } from '@angular/core';
 })
 export class ContactsListComponent implements OnInit {
   @Input() contacts: Contact[] = [];
-  @Output() contactUpdated: EventEmitter<boolean> = new EventEmitter();
+  @Output() contactAffected: EventEmitter<boolean> = new EventEmitter();
   editingContactName: FormControl = new FormControl('');
 
   constructor(
@@ -30,9 +30,17 @@ export class ContactsListComponent implements OnInit {
   update(contact: Contact) {
     if (this.editingContactName.valid) {
       this.contactService.updateContactName(contact.id, this.editingContactName.value);
-      this.contactUpdated.emit(true);
+      this.contactAffected.emit(true);
       this.cancelEdition(contact);
     }//TODO validate
+  }
+
+  delete(contact: Contact) {
+    if (confirm('Estas seguro?')) {
+      this.contactService.deleteContact(contact);
+      this.contactAffected.emit(true);
+      this.cancelEdition(contact);
+    }
   }
 
   cancelEdition(contact: Contact) {
