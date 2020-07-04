@@ -31,7 +31,7 @@ export class SinglePhoneBadgeComponent implements OnInit {
   update() {
     if (this.updatedPhone.valid) {
       this.contactService.updatePhone(
-        this.contact.id,
+        this.contact.name,
         this.phone,
         this.updatedPhone.value
       );
@@ -48,7 +48,7 @@ export class SinglePhoneBadgeComponent implements OnInit {
 
   delete(): void {
     if (confirm('Estas seguro?')) {
-      this.contactService.deletePhone(this.contact.id, this.phone);
+      this.contactService.deletePhone(this.contact.name, this.phone);
       this.emitPhoneAffected();
     }
   }

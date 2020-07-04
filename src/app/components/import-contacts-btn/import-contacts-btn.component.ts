@@ -45,12 +45,13 @@ export class ImportContactsBtnComponent implements OnInit {
       const contacts: Contact[] = JSON.parse(jsonString);
 
       contacts.forEach(con => {
+        con.timestamp = new Date().getTime();
         if (this.contactService.contactNameExists(con.name)) {
           con.isInvalid = true;
         }
       });
       this.previewContacts = contacts;
-
+      console.log('this.previewContacts', this.previewContacts);
       $(this.MODAL_ID).modal({
         keyboard: false,
         backdrop: false

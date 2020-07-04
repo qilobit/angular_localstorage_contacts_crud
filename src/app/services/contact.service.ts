@@ -23,10 +23,10 @@ export class ContactService {
     return ref === null ? [] : JSON.parse(ref);
   }
 
-  public updateContactName(contactId: number, newName: string): void {
+  public updateContactName(oldName: string, newName: string): void {
     const contacts = this.getContacts();
     contacts.forEach((contact: Contact) => {
-      if (contact.id == contactId) {
+      if (contact.name == oldName) {
         contact.name = newName;
       }
     });
@@ -34,15 +34,15 @@ export class ContactService {
   }
 
   public deleteContact(contact: Contact): void {
-    const contacts = this.getContacts().filter(_contact => _contact.id != contact.id);
+    const contacts = this.getContacts().filter(_contact => _contact.name !== contact.name);
     this.storeContacts(contacts);
   }
 
-  public addPhoneToContact(contactId: number, phone: string): boolean {
+  public addPhoneToContact(contactName: string, phone: string): boolean {
     let phoneAreadyExists = false;
     const contacts = this.getContacts();
     for (let i = 0; i < contacts.length; i++) {
-      if (contacts[i].id == contactId) {
+      if (contacts[i].name === contactName) {
         if (contacts[i].phones.indexOf(phone) === -1) {
           contacts[i].phones.push(phone);
           this.storeContacts(contacts);
@@ -56,10 +56,10 @@ export class ContactService {
     return !phoneAreadyExists;
   }
 
-  public deletePhone(contactId: number, phone: string): void {
+  public deletePhone(contactName: string, phone: string): void {
     const contacts = this.getContacts();
     for (let i = 0; i < contacts.length; i++) {
-      if (contacts[i].id == contactId) {
+      if (contacts[i].name == contactName) {
 
         contacts[i].phones.splice(
           contacts[i].phones.indexOf(phone),
@@ -73,10 +73,10 @@ export class ContactService {
     }
   }
 
-  public updatePhone(contactId: number, phone: string, newPhone: string): void {
+  public updatePhone(contactName: string, phone: string, newPhone: string): void {
     const contacts = this.getContacts();
     for (let i = 0; i < contacts.length; i++) {
-      if (contacts[i].id == contactId) {
+      if (contacts[i].name === contactName) {
         for (let phoneIndex = 0; phoneIndex < contacts[i].phones.length; phoneIndex++) {
           if (contacts[i].phones[phoneIndex] == phone) {
             contacts[i].phones[phoneIndex] = newPhone;

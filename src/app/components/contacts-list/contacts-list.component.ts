@@ -40,10 +40,10 @@ export class ContactsListComponent implements OnInit {
 
   update(contact: Contact) {
     if (this.editingContactName.value != '' && this.editingContactName.valid) {
-      this.contactService.updateContactName(contact.id, this.editingContactName.value);
+      this.contactService.updateContactName(contact.name, this.editingContactName.value);
       this.emitContactAffected();
       this.cancelEdition(contact);
-    }//TODO validate
+    }
   }
 
   delete(contact: Contact) {
@@ -61,7 +61,7 @@ export class ContactsListComponent implements OnInit {
 
   addPhone(contact: Contact) {
     if (this.newPhone.value != '' && this.newPhone.valid) {
-      if (this.contactService.addPhoneToContact(contact.id, this.newPhone.value)) {
+      if (this.contactService.addPhoneToContact(contact.name, this.newPhone.value)) {
         this.newPhone.setValue('');
         contact.addingNewPhone = false;
         this.emitContactAffected();
