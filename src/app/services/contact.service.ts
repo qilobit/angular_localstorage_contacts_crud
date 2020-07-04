@@ -9,9 +9,14 @@ export class ContactService {
   constructor() { }
 
   public saveContact(contact: Contact): void {
-    const existingContacts: Contact[] = this.getContacts();
-    existingContacts.push(contact);
-    this.storeContacts(existingContacts);
+    const allPhonesAreValid = contact.phones.filter(phone => Number.isNaN(Number(phone))).length === 0;
+    if (contact.name !== '' && allPhonesAreValid) {
+      const existingContacts: Contact[] = this.getContacts();
+      existingContacts.push(contact);
+      this.storeContacts(existingContacts);
+    } else {
+      throw 'El contacto contient teléfonos invalidos';
+    }
   }
 
   private storeContacts(contacts: Contact[]): void {

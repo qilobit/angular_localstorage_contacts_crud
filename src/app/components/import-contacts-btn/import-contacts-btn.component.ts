@@ -27,21 +27,22 @@ export class ImportContactsBtnComponent implements OnInit {
   }
 
   async validateFile(event: any): Promise<void> {
+    console.log('validateFile');
     if (event.target.files.length > 0) {
       const file: File = event.target.files[0];
       if (file.type === this.VALID_FILE && file.size <= 2000000) {
-
         try {
           const contactsString = await this.importService.readFileAsString(file);
           this.loadContactsFromJson(contactsString);
         } catch (error) {
           alert('error al leer archivo');
         }
-
       } else {
         this._file.setValue(null);
         alert('Archivo invalido, Solo se admite .json con tamaño máximo de 2mg');
       }
+    } else {
+      console.log('No file');
     }
   }
 
@@ -50,7 +51,8 @@ export class ImportContactsBtnComponent implements OnInit {
       const contacts: Contact[] = JSON.parse(jsonString);
       contacts.forEach(con => {
         con.timestamp = new Date().getTime();
-        if (this.contactService.contactNameExists(con.name)) {
+        const phonesAreValid = con.phones.filter(p => Number.isNaN(Number(p))).length === 0;
+        if (this.contactService.contactNameExists(con.name) || !phonesAreValid) {
           con.isInvalid = true;
         }
       });
@@ -76,6 +78,7 @@ export class ImportContactsBtnComponent implements OnInit {
   }
 
   closeModal(): void {
+    this._file.setValue('');
     this.previewContacts = [];
     $(this.MODAL_ID).modal('hide');
   }

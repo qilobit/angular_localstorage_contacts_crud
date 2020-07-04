@@ -17,8 +17,9 @@
         <ul class="list-group mt-3">
           <li class="list-group-item text-left" *ngFor="let contact of previewContacts"
             [class.invalid]="contact.isInvalid">
-            <h4 class="text-danger" *ngIf="contact.isInvalid">Ya existe un contacto con este nombre, no sera importado
-            </h4>
+            <h5 class="text-danger" *ngIf="contact.isInvalid">Ya existe un contacto con este nombre y o contiene
+              teléfonos invalidios, no sera importado
+            </h5>
             <b>Nombre:</b> {{ contact.name }}
             <br>
             <b>Teléfonos:</b><br><span *ngFor="let phone of contact.phones; index as i"

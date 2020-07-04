@@ -39,10 +39,14 @@ export class AddContactBtnComponent implements OnInit {
         this.name.value,
         [this.phone.value]
       );
-      this.contactService.saveContact(contact);
-      alert('Contacto creado');
-      this.newContactAdded.emit(true);
-      this.closeModal();
+      try {
+        this.contactService.saveContact(contact);
+        alert('Contacto creado');
+        this.newContactAdded.emit(true);
+        this.closeModal();
+      } catch (error) {
+        alert(error);
+      }
     }
   }
 
