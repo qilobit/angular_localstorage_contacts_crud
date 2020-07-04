@@ -67,6 +67,10 @@ export class ImportContactsBtnComponent implements OnInit {
     }
   }
 
+  get allPreviewContactsAreInvalid(): boolean {
+    return this.previewContacts.filter(con => !con.isInvalid).length === 0;
+  }
+
   saveContacts(): void {
     this.previewContacts.forEach(contact => {
       if (!contact.isInvalid) {

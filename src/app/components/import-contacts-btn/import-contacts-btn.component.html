@@ -29,8 +29,14 @@
 
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="saveContacts()">Guardar contactos</button>
+        <button type="button" class="btn btn-secondary" (click)="closeModal()"><i class="fa fa-ban"></i>
+          Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveContacts()"
+          [disabled]="allPreviewContactsAreInvalid">
+          <i class="fa fa-save"></i>&nbsp;
+          <span *ngIf="allPreviewContactsAreInvalid">No hay contactos que importar</span>
+          <span *ngIf="!allPreviewContactsAreInvalid">Guardar contactos</span>
+        </button>
       </div>
     </div>
   </div>
