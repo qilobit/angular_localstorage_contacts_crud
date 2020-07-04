@@ -10,12 +10,12 @@ export class ContactService {
 
   public saveContact(contact: Contact): void {
     const allPhonesAreValid = contact.phones.filter(phone => Number.isNaN(Number(phone))).length === 0;
-    if (contact.name !== '' && allPhonesAreValid) {
+    if (contact.name !== '' && !this.contactNameExists(contact.name) && allPhonesAreValid) {
       const existingContacts: Contact[] = this.getContacts();
       existingContacts.push(contact);
       this.storeContacts(existingContacts);
     } else {
-      throw 'El contacto contient teléfonos invalidos';
+      throw 'El contacto ya existe y o contiene teléfonos invalidos';
     }
   }
 

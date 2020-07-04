@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl, Validators, ValidatorFn, AbstractControl } from '@angular/forms';
 import { ContactService } from 'src/app/services/contact.service';
 import { Contact } from 'src/app/models/contact.model';
 
@@ -13,7 +13,10 @@ declare var $: any;
 export class AddContactBtnComponent implements OnInit {
   private readonly modalId = '#contact-modal';
   @Output() newContactAdded: EventEmitter<boolean> = new EventEmitter();
-  name = new FormControl('', Validators.required);
+  name = new FormControl('', [
+    Validators.required,
+    this.uniqueNameValidator()
+  ]);
   phone = new FormControl('', Validators.pattern('[0-9]*'));
 
   constructor(
@@ -33,7 +36,7 @@ export class AddContactBtnComponent implements OnInit {
   }
 
   save() {
-    if (this.name.value != '' && this.phone.value != '') {
+    if (this.name.valid && this.phone.valid) {
       const contact = new Contact(
         new Date().getTime(),
         this.name.value,
@@ -52,5 +55,11 @@ export class AddContactBtnComponent implements OnInit {
 
   openModal() {
     $(this.modalId).modal('show');
+  }
+
+  uniqueNameValidator(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      return this.contactService.contactNameExists(control.value) ? { 'error': 'Ya existe un contacto con este nombre' } : null;
+    };
   }
 }
