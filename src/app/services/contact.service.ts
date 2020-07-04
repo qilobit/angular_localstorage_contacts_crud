@@ -20,7 +20,10 @@ export class ContactService {
 
   public getContacts(): Contact[] {
     const ref = localStorage.getItem(this.LOCAL_KEY)
-    return ref === null ? [] : JSON.parse(ref);
+    if (ref === null) {
+      return [];
+    }
+    return JSON.parse(ref).map(c => new Contact(c.timestamp, c.name, c.phones));
   }
 
   public updateContactName(oldName: string, newName: string): void {

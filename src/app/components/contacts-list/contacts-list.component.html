@@ -2,7 +2,8 @@
   <li class="list-group-item" *ngFor="let contact of contacts">
     <div class="row">
       <div class="col-sm-8">
-        <h4 *ngIf="!contact.isBeenEdited">{{ contact.name }}</h4>
+        <h4 *ngIf="!contact.isBeenEdited" style="margin-bottom: 0;">{{ contact.name }}</h4>
+        <small>{{ contact.creationDate }}</small>
         <input *ngIf="contact.isBeenEdited" type="text" maxlength="25" class="form-control"
           [formControl]="editingContactName">
       </div>
