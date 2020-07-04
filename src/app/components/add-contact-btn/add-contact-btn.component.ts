@@ -13,8 +13,8 @@ declare var $: any;
 export class AddContactBtnComponent implements OnInit {
   private readonly modalId = '#contact-modal';
   @Output() newContactAdded: EventEmitter<boolean> = new EventEmitter();
-  name = new FormControl('');
-  phone = new FormControl('');
+  name = new FormControl('', Validators.required);
+  phone = new FormControl('', Validators.pattern('[0-9]*'));
 
   constructor(
     private readonly contactService: ContactService
@@ -25,6 +25,10 @@ export class AddContactBtnComponent implements OnInit {
   }
 
   closeModal() {
+    this.name.setValue('');
+    this.phone.setValue('');
+    this.name.reset();
+    this.phone.reset();
     $(this.modalId).modal('hide');
   }
 
@@ -37,8 +41,6 @@ export class AddContactBtnComponent implements OnInit {
       );
       this.contactService.saveContact(contact);
       alert('Contacto creado');
-      this.name.setValue('');
-      this.phone.setValue('');
       this.newContactAdded.emit(true);
       this.closeModal();
     }

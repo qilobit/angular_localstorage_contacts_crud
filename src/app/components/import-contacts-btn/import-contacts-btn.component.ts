@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Contact } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
+import { ImportService } from 'src/app/services/import.service';
 
 declare var $: any;
 
@@ -18,21 +19,25 @@ export class ImportContactsBtnComponent implements OnInit {
   @Output() contactsImported: EventEmitter<boolean> = new EventEmitter();
 
   constructor(
-    private readonly contactService: ContactService
+    private readonly contactService: ContactService,
+    private readonly importService: ImportService
   ) { }
 
   ngOnInit(): void {
   }
 
-  validateFile(event: any): void {
+  async validateFile(event: any): Promise<void> {
     if (event.target.files.length > 0) {
       const file: File = event.target.files[0];
       if (file.type === this.VALID_FILE && file.size <= 2000000) {
-        const reader = new FileReader();
-        reader.onload = (result) => {
-          this.loadContactsFromJson(result.target.result.toString());
-        };
-        reader.readAsText(file);
+
+        try {
+          const contactsString = await this.importService.readFileAsString(file);
+          this.loadContactsFromJson(contactsString);
+        } catch (error) {
+          alert('error al leer archivo');
+        }
+
       } else {
         this._file.setValue(null);
         alert('Archivo invalido, Solo se admite .json con tamaño máximo de 2mg');
@@ -43,7 +48,6 @@ export class ImportContactsBtnComponent implements OnInit {
   loadContactsFromJson(jsonString: string) {
     try {
       const contacts: Contact[] = JSON.parse(jsonString);
-
       contacts.forEach(con => {
         con.timestamp = new Date().getTime();
         if (this.contactService.contactNameExists(con.name)) {
@@ -51,7 +55,6 @@ export class ImportContactsBtnComponent implements OnInit {
         }
       });
       this.previewContacts = contacts;
-      console.log('this.previewContacts', this.previewContacts);
       $(this.MODAL_ID).modal({
         keyboard: false,
         backdrop: false
