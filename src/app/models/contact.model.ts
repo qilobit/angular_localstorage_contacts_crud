@@ -1,6 +1,6 @@
 export class Contact {
-
-  constructor(private id: number, private name: string, private phones: string[]) {
+  public isBeenEdited: boolean = false;
+  constructor(public id: number, public name: string, public phones: string[]) {
 
   }
 }

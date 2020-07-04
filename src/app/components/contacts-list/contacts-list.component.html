@@ -1,11 +1,19 @@
 <ul class="list-group mt-3">
   <li class="list-group-item" *ngFor="let contact of contacts">
     <div class="row">
-      <div class="col-sm-10">
-        <h4>{{ contact.name }}</h4>
+      <div class="col-sm-8">
+        <h4 *ngIf="!contact.isBeenEdited">{{ contact.name }}</h4>
+        <input *ngIf="contact.isBeenEdited" type="text" class="form-control" [formControl]="editingContactName">
       </div>
-      <div class="col-sm-2">
-        <button class="btn btn-warning btn-sm"><i class="fa fa-edit"></i> Editar</button>
+      <div class="col-sm-4 text-right">
+        <button *ngIf="!contact.isBeenEdited" class="btn btn-warning btn-sm" (click)="edit(contact)"><i
+            class="fa fa-edit"></i> Editar</button>
+        <div *ngIf="contact.isBeenEdited" class="form-group">
+          <button class="btn btn-secondary btn-sm" (click)="cancelEdition(contact)"><i class="fa fa-close"></i>
+            Cancelar</button>&nbsp;
+          <button class="btn btn-success btn-sm" (click)="update(contact)"><i class="fa fa-save"></i>
+            Actualizar</button>
+        </div>
       </div>
     </div>
     <hr>

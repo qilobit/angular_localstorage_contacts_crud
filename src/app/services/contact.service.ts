@@ -20,8 +20,18 @@ export class ContactService {
     localStorage.setItem(this.LOCAL_KEY, JSON.stringify(contacts));
   }
 
-  public getContacts() {
+  public getContacts(): Contact[] {
     const ref = localStorage.getItem(this.LOCAL_KEY)
     return ref === null ? [] : JSON.parse(ref);
+  }
+
+  public updateContactName(contactId: number, newName: string): void {
+    const contacts = this.getContacts();
+    contacts.forEach((contact: Contact) => {
+      if (contact.id == contactId) {
+        contact.name = newName;
+      }
+    });
+    this.storeContacts(contacts);
   }
 }
