@@ -7,18 +7,20 @@ import { AddContactBtnComponent } from './components/add-contact-btn/add-contact
 import { ImportContactsBtnComponent } from './components/import-contacts-btn/import-contacts-btn.component';
 import { ContactsListComponent } from './components/contacts-list/contacts-list.component';
 import { ReactiveFormsModule } from "@angular/forms";
+import { SinglePhoneBadgeComponent } from './components/single-phone-badge/single-phone-badge.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddContactBtnComponent,
     ImportContactsBtnComponent,
-    ContactsListComponent
+    ContactsListComponent,
+    SinglePhoneBadgeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

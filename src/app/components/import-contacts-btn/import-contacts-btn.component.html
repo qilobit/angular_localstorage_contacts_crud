@@ -1,1 +1,36 @@
-<button class="btn btn-secondary"><i class="fa fa-upload"></i> Importar contactos</button>
+<button class="btn btn-secondary" (click)="myFile.click()"><i class="fa fa-upload"></i> Importar contactos</button>
+<input type="file" (change)="validateFile( $event )" #myFile hidden [formControl]="_file">
+
+<!-- Contacts preview Modal -->
+<div class="modal fade" id="preview-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Contactos a importar</h5>
+        <button type="button" class="close" (click)="closeModal()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <ul class="list-group mt-3">
+          <li class="list-group-item text-left" *ngFor="let contact of previewContacts"
+            [class.invalid]="contact.isInvalid">
+            <h4 class="text-danger" *ngIf="contact.isInvalid">Ya existe un contacto con este nombre, no sera importado
+            </h4>
+            <b>Nombre:</b> {{ contact.name }}
+            <br>
+            <b>Teléfonos:</b><br><span *ngFor="let phone of contact.phones; index as i"
+              class="badge badge-secondary mr-2">{{ contact.phones[i] }}</span>
+          </li>
+        </ul>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveContacts()">Guardar contactos</button>
+      </div>
+    </div>
+  </div>
+</div>

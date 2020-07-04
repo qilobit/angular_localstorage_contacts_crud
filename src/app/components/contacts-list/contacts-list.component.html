@@ -3,7 +3,8 @@
     <div class="row">
       <div class="col-sm-8">
         <h4 *ngIf="!contact.isBeenEdited">{{ contact.name }}</h4>
-        <input *ngIf="contact.isBeenEdited" type="text" class="form-control" [formControl]="editingContactName">
+        <input *ngIf="contact.isBeenEdited" type="text" maxlength="25" class="form-control"
+          [formControl]="editingContactName">
       </div>
       <div class="col-sm-4 text-right">
         <div *ngIf="!contact.isBeenEdited" class="form-group">
@@ -12,7 +13,6 @@
           <button class="btn btn-danger btn-sm" (click)="delete(contact)"><i class="fa fa-trash"></i>
             Borrar</button>
         </div>
-
 
         <div *ngIf="contact.isBeenEdited" class="form-group">
           <button class="btn btn-secondary btn-sm" (click)="cancelEdition(contact)"><i class="fa fa-close"></i>
@@ -23,11 +23,26 @@
       </div>
     </div>
     <hr>
-    <h5>Telefonos <button class="btn btn-primary btn-sm"><i class="fa fa-plus"></i></button></h5>
-    <span *ngFor="let phone of contact.phones; index as i" class="badge badge-info p-2">
-      {{ contact.phones[i] }}&nbsp;
-      <a href="" class="text-warning"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
-      <a href="" class="text-danger"><i class="fa fa-trash"></i></a>
-    </span>
+    <h5>Teléfonos
+      <button *ngIf="!contact.addingNewPhone" class="btn btn-primary btn-sm" (click)="contact.addingNewPhone = true"><i
+          class="fa fa-plus"></i> Nuevo</button>
+      <div *ngIf="contact.addingNewPhone" class="col-sm-10 row mt-1 mb-1" style="margin-left: 0;padding-left: 0;">
+        <div class="col-sm-8 text-left pl-0" style="margin-left: 0;">
+          <input type="text" [formControl]="newPhone" placeholder="Nuevo teléfono" maxlength="15" class="form-control">
+        </div>
+        <div class="col-sm-4">
+          <button class="btn btn-secondary btn-sm" title="Cancelar" (click)="contact.addingNewPhone = false">
+            <i class="fa fa-ban"></i></button>&nbsp;&nbsp;
+          <button class="btn btn-success btn-sm" title="Guardar" (click)="addPhone(contact)"><i
+              class="fa fa-save"></i></button>
+        </div>
+      </div>
+
+    </h5>
+
+    <single-phone-badge (phoneAffected)="emitContactAffected()" *ngFor="let phone of contact.phones; index as i"
+      [phone]="contact.phones[i]" [contact]="contact">
+    </single-phone-badge>
+
   </li>
 </ul>

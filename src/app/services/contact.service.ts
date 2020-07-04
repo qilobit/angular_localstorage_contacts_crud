@@ -6,9 +6,7 @@ import { Contact } from '../models/contact.model';
 })
 export class ContactService {
   private readonly LOCAL_KEY = 'my_contacts';
-  constructor(
-
-  ) { }
+  constructor() { }
 
   public saveContact(contact: Contact): void {
     const existingContacts: Contact[] = this.getContacts();
@@ -38,5 +36,60 @@ export class ContactService {
   public deleteContact(contact: Contact): void {
     const contacts = this.getContacts().filter(_contact => _contact.id != contact.id);
     this.storeContacts(contacts);
+  }
+
+  public addPhoneToContact(contactId: number, phone: string): boolean {
+    let phoneAreadyExists = false;
+    const contacts = this.getContacts();
+    for (let i = 0; i < contacts.length; i++) {
+      if (contacts[i].id == contactId) {
+        if (contacts[i].phones.indexOf(phone) === -1) {
+          contacts[i].phones.push(phone);
+          this.storeContacts(contacts);
+          break;
+        } else {
+          phoneAreadyExists = true;
+          break;
+        }
+      }
+    }
+    return !phoneAreadyExists;
+  }
+
+  public deletePhone(contactId: number, phone: string): void {
+    const contacts = this.getContacts();
+    for (let i = 0; i < contacts.length; i++) {
+      if (contacts[i].id == contactId) {
+
+        contacts[i].phones.splice(
+          contacts[i].phones.indexOf(phone),
+          1
+        );
+
+        this.storeContacts(contacts);
+        break;
+
+      }
+    }
+  }
+
+  public updatePhone(contactId: number, phone: string, newPhone: string): void {
+    const contacts = this.getContacts();
+    for (let i = 0; i < contacts.length; i++) {
+      if (contacts[i].id == contactId) {
+        for (let phoneIndex = 0; phoneIndex < contacts[i].phones.length; phoneIndex++) {
+          if (contacts[i].phones[phoneIndex] == phone) {
+            contacts[i].phones[phoneIndex] = newPhone;
+            this.storeContacts(contacts);
+            break;
+          }
+        }
+        break;
+      }
+    }
+  }
+
+  public contactNameExists(name: string) {
+    return this.getContacts().filter(con => con.name === name).length > 0;
   }
 }

@@ -1,0 +1,14 @@
+<span class="badge badge-custom p-2 mr-2">
+  <span *ngIf="editing">
+    <input type="text" maxlength="15" [formControl]="updatedPhone" class="np-sm">&nbsp;
+    <a (click)="cancelEdition()" title="Cancelar" class="text-secondary cursor"><i
+        class="fa fa-ban"></i></a>&nbsp;&nbsp;
+    <a (click)="update()" title="Actualizar teléfono" class="text-success cursor"><i class="fa fa-save"></i></a>
+  </span>
+  <span *ngIf="!editing">
+    {{ phone }}&nbsp;
+    <a (click)="edit()" title="Editar teléfono" class="text-warning cursor"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
+    <a (click)="delete()" title="Borrar teléfono" class="text-danger cursor"><i class="fa fa-trash"></i></a>
+  </span>
+
+</span>
