@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, Output } from '@angular/core';
 import { ContactService } from 'src/app/services/contact.service';
 import { Contact } from 'src/app/models/contact.model';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { EventEmitter } from '@angular/core';
-import { PhoneService } from 'src/app/services/phone.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -11,27 +10,17 @@ import { Subscription } from 'rxjs';
   templateUrl: './contacts-list.component.html',
   styleUrls: ['./contacts-list.component.scss']
 })
-export class ContactsListComponent implements OnInit {
+export class ContactsListComponent {
   @Input() contacts: Contact[] = [];
   @Output() contactAffected: EventEmitter<boolean> = new EventEmitter();
   editingContactName: FormControl = new FormControl('');
-  newPhone: FormControl = new FormControl('');
+  newPhone: FormControl = new FormControl('', Validators.pattern('[0-9]*'));
   addingNewPhone: boolean = false;
   changesSub: Subscription;
 
   constructor(
     private readonly contactService: ContactService,
-    public readonly _phone: PhoneService
   ) { }
-
-  ngOnInit(): void {
-    // this.changesSub = this.newPhone.valueChanges.subscribe(val => {
-
-    //   this.newPhone.setValue(this._phone.replaceNonNumbers(String(val)));
-    //   this.changesSub.unsubscribe();
-
-    // });
-  }
 
   edit(contact: Contact) {
     contact.isBeenEdited = true;
@@ -55,8 +44,9 @@ export class ContactsListComponent implements OnInit {
   }
 
   cancelEdition(contact: Contact) {
+    this.newPhone.setValue('');
+    this.newPhone.reset();
     contact.isBeenEdited = false;
-
   }
 
   addPhone(contact: Contact) {

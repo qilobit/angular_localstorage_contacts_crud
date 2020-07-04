@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { Contact } from 'src/app/models/contact.model';
 import { ContactService } from 'src/app/services/contact.service';
 import { EventEmitter } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'single-phone-badge',
@@ -15,7 +15,7 @@ export class SinglePhoneBadgeComponent implements OnInit {
   @Input() phone: string;
   @Output() phoneAffected: EventEmitter<boolean> = new EventEmitter();
   editing: boolean = false;
-  updatedPhone: FormControl = new FormControl('');
+  updatedPhone: FormControl = new FormControl('', Validators.pattern('[0-9]*'));
 
   constructor(
     private readonly contactService: ContactService

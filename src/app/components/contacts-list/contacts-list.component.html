@@ -30,6 +30,7 @@
       <div *ngIf="contact.addingNewPhone" class="col-sm-10 row mt-1 mb-1" style="margin-left: 0;padding-left: 0;">
         <div class="col-sm-8 text-left pl-0" style="margin-left: 0;">
           <input type="text" [formControl]="newPhone" placeholder="Nuevo teléfono" maxlength="15" class="form-control">
+          <span *ngIf="newPhone.touched && !newPhone.valid" class="text-danger">Teléfono invalido, solo números</span>
         </div>
         <div class="col-sm-4">
           <button class="btn btn-secondary btn-sm" title="Cancelar" (click)="contact.addingNewPhone = false">

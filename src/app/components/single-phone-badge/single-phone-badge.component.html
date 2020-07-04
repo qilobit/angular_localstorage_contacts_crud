@@ -4,6 +4,8 @@
     <a (click)="cancelEdition()" title="Cancelar" class="text-secondary cursor"><i
         class="fa fa-ban"></i></a>&nbsp;&nbsp;
     <a (click)="update()" title="Actualizar teléfono" class="text-success cursor"><i class="fa fa-save"></i></a>
+    <span *ngIf="updatedPhone.touched && !updatedPhone.valid" class="text-danger"><br>Teléfono invalido, solo
+      números</span>
   </span>
   <span *ngIf="!editing">
     {{ phone }}&nbsp;
